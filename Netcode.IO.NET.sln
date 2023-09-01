@@ -1,15 +1,15 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Netcode.IO.NET", "Netcode.IO.NET\Netcode.IO.NET.csproj", "{74122CF9-7E4C-4EA7-9AEC-FC1501BC712A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Netcode.IO.NET", "Netcode.IO.NET\Netcode.IO.NET.csproj", "{74122CF9-7E4C-4EA7-9AEC-FC1501BC712A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BCCrypto", "BCCrypto\BCCrypto.csproj", "{D7022BC7-E21D-4A79-BDE7-30F01ED961DF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BCCrypto", "BCCrypto\BCCrypto.csproj", "{D7022BC7-E21D-4A79-BDE7-30F01ED961DF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{F720D193-F17E-4D79-8E26-7C12027F834B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test", "Test\Test.csproj", "{F720D193-F17E-4D79-8E26-7C12027F834B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Netcode.IO Unit Tests", "Netcode.IO Unit Tests\Netcode.IO Unit Tests.csproj", "{E42AD327-2D44-44B8-8E4C-05522574046B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Netcode.IO Unit Tests", "Netcode.IO Unit Tests\Netcode.IO Unit Tests.csproj", "{E42AD327-2D44-44B8-8E4C-05522574046B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
