@@ -2,11 +2,11 @@
 A pure managed C# implementation of the Netcode.IO spec
 
 # Project goals
-The goal of this project is to provide a pure managed implementation of the [Netcode.IO spec](https://github.com/networkprotocol/netcode.io) coded against .NET 3.5 and using zero native DLLs or wrappers for maximum portability.
-Instead of using libsodium like the original C reference implementation, this implementation uses a customized version of the Bouncy Castle cryptography library. You can find the original source code here: https://github.com/bcgit/bc-csharp
-
-Additionally, it is designed for use in games. To this end, it has been designed from the ground up to have as minimal an impact on GC allocations as possible. For the most part, you should not see any GC impact from using Netcode.IO.NET at all.
-
+이 프로젝트의 목표는 이식성을 극대화하기 위해 네이티브 DLL이나 래퍼를 전혀 사용하지 않고 .NET 3.5로 코딩된 [Netcode.IO spec](https://github.com/networkprotocol/netcode.io)의 순수 관리형 구현을 제공하는 것입니다. 이 구현은 원래의 C 참조 구현처럼 libsodium을 사용하는 대신 사용자 정의된 버전의 Bouncy Castle 암호화 라이브러리를 사용합니다. 원본 소스 코드는 여기에서 찾을 수 있습니다: https://github.com/bcgit/bc-csharp  
+  
+또한 게임에서 사용하도록 설계되었습니다. 이를 위해 처음부터 GC 할당에 최대한 영향을 미치지 않도록 설계되었습니다. 대부분의 경우 Netcode.IO.NET 사용으로 인한 GC 영향은 전혀 나타나지 않을 것입니다.  
+  
+  
 # API usage
 Most of the API resides in the namespace `NetcodeIO.NET`
 
@@ -30,12 +30,12 @@ server.OnClientConnected += clientConnectedHandler;		// void( RemoteClient clien
 // Called when a client disconnects
 server.OnClientDisconnected += clientDisconnectedHandler;	// void( RemoteClient client )
 
-// Called when a payload has been received from a client
-// Note that you should not keep a reference to the payload, as it will be returned to a pool after this call completes.
+// 클라이언트로부터 페이로드가 수신되었을 때 호출됩니다.
+// 이 호출이 완료되면 페이로드가 풀로 반환되므로 페이로드에 대한 참조를 보관해서는 안 됩니다.
 server.OnClientMessageRecieved += messageReceivedHandler;	// void( RemoteClient client, byte[] payload, int payloadSize )
 
-// Called when the server logs a message
-// If you are not using a custom logger, a handler using Console.Write() is sufficient.
+// 서버가 메시지를 기록할 때 호출됩니다.
+// 사용자 정의 로거를 사용하지 않는 경우 Console.Write()를 사용하는 핸들러로 충분합니다.
 server.OnLogMessage += logMessageHandler;			// void( string message, NetcodeLogLevel logLevel )
 ```
 
@@ -52,7 +52,7 @@ To disconnect a client:
 server.Disconnect( RemoteClient client );
 ```
 
-To get at the arbitrary 256-byte user data which can be passed with a connect token:
+연결 토큰으로 전달할 수 있는 임의의 256바이트 사용자 데이터를 가져옵니다:
 ```c#
 remoteClient.UserData; // byte[256]
 ```
@@ -70,12 +70,12 @@ Client client = new Client();
 
 To listen for various events:
 ```c#
-// Called when the client's state has changed
-// Use this to detect when a client has connected to a server, or has been disconnected from a server, or connection times out, etc.
+// 클라이언트의 상태가 변경되었을 때 호출됩니다.
+// 클라이언트가 서버에 연결되었거나 서버에서 연결이 끊어졌거나 연결 시간이 초과된 경우 등을 감지할 때 사용합니다.
 client.OnStateChanged += clientStateChanged;			// void( ClientState state )
 
-// Called when a payload has been received from the server
-// Note that you should not keep a reference to the payload, as it will be returned to a pool after this call completes.
+// 서버로부터 페이로드가 수신되었을 때 호출됩니다.
+// 이 호출이 완료되면 페이로드가 풀로 반환되므로 페이로드에 대한 참조를 보관해서는 안 됩니다.
 client.OnMessageReceived += messageReceivedHandler;		// void( byte[] payload, int payloadSize )
 ```
 
@@ -95,28 +95,26 @@ client.Disconnect();
 ```
 
 ## TokenFactory API
-TokenFactory can be used to generate the public connect tokens used by clients to connect to game servers.
-To create a new TokenFactory:
+TokenFactory는 클라이언트가 게임 서버에 연결할 때 사용하는 공용 연결 토큰을 생성하는 데 사용할 수 있습니다.  
+새 TokenFactory를 생성하려면
 ```c#
 TokenFactory tokenFactory = new TokenFactory(
-	protocolID,		// must be the same protocol ID as passed to both client and server constructors
-	privateKey		// byte[32], must be the same as the private key passed to the Server constructor
+	protocolID,		// 클라이언트 및 서버 생성자 모두에 전달된 것과 동일한 프로토콜 ID여야 합니다
+	privateKey		// byte[32], 는 서버 생성자에 전달된 개인 키와 동일해야 합니다
 );
 ```
 
 To generate a new 2048-byte public connect token:
 ```c#
 tokenFactory.GenerateConnectToken(
-	addressList,		// IPEndPoint[] list of addresses the client can connect to. Must have at least one and no more than 32.
-	expirySeconds,		// in how many seconds will the token expire
-	serverTimeout,		// how long it takes until a connection attempt times out and the client tries the next server.
-	sequenceNumber,		// ulong token sequence number used to uniquely identify a connect token.
-	clientID,		// ulong ID used to uniquely identify this client
-	userData		// byte[], up to 256 bytes of arbitrary user data (available to the server as RemoteClient.UserData)
+	addressList,		// 클라이언트가 연결할 수 있는 주소의 IPEndPoint[] 목록입니다. 하나 이상 32개 이하여야 합니다.
+	expirySeconds,		// 토큰이 만료되는 시간(초)
+	serverTimeout,		// 연결 시도가 시간 초과되어 클라이언트가 다음 서버를 시도할 때까지 걸리는 시간.
+	sequenceNumber,		// 연결 토큰을 고유하게 식별하는 데 사용되는 ulong 토큰 시퀀스 번호.
+	clientID,		// 이 클라이언트를 고유하게 식별하는 데 사용되는 ulong ID
+	userData		// byte[], 최대 256바이트의 임의의 사용자 데이터(서버에서 RemoteClient.UserData로 사용 가능)
 );
 ```
 
 # A note about UDP and unreliability
-Netcode.IO.NET is a pure port of the Netcode.IO protocol - nothing more, and nothing less.
-At its heart, Netcode.IO is an encryption and connection based abstraction on top of UDP. And, just like UDP, it has zero guarantees about reliability. Your messages may not make it, and they may not make it in order. That's just a fact of the internet.
-That said, any game will almost certainly need some kind of reliability layer. To that end, my [ReliableNetcode.NET](https://github.com/KillaMaaki/ReliableNetcode.NET) project provides an agnostic and easy to use reliability layer you can use to add this functionality to your game.
+Netcode.IO.NET은 Netcode.IO 프로토콜의 순수 포트일 뿐 그 이상도 이하도 아닙니다. Netcode.IO의 핵심은 UDP를 기반으로 한 암호화 및 연결 기반 추상화입니다. 그리고 UDP와 마찬가지로 안정성에 대한 보장이 전혀 없습니다. 메시지가 전달되지 않을 수도 있고 순서대로 전달되지 않을 수도 있습니다. 이는 인터넷의 현실입니다. 그렇긴 하지만 모든 게임에는 일종의 신뢰성 계층이 필요합니다. 이를 위해 제가 만든 ReliableNetcode.NET 프로젝트는 게임에 이 기능을 추가하는 데 사용할 수 있는 불가지론적이고 사용하기 쉬운 안정성 계층을 제공합니다.  
