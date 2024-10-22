@@ -1,12 +1,17 @@
 # Netcode.IO.NET
 A pure managed C# implementation of the Netcode.IO spec
 
+아래는 원본 저장소의 글을 한글로 번역한 것이다. 또 fork를 하면서 .NET 8.0 으로 업그레이드 했다.  
+`netcode_cpp`에는 원본 netcode 코드를 복사한 것이다.    
+  
+  
 # Project goals
-이 프로젝트의 목표는 이식성을 극대화하기 위해 네이티브 DLL이나 래퍼를 전혀 사용하지 않고 .NET 3.5로 코딩된 [Netcode.IO spec](https://github.com/networkprotocol/netcode.io)의 순수 관리형 구현을 제공하는 것입니다. 이 구현은 원래의 C 참조 구현처럼 libsodium을 사용하는 대신 사용자 정의된 버전의 Bouncy Castle 암호화 라이브러리를 사용합니다. 원본 소스 코드는 여기에서 찾을 수 있습니다: https://github.com/bcgit/bc-csharp  
-  
+이 프로젝트의 목표는 이식성을 극대화하기 위해 네이티브 DLL이나 래퍼를 전혀 사용하지 않고 .NET 3.5로 코딩된 [Netcode.IO spec](https://github.com/networkprotocol/netcode.io)의 순수 관리형 구현을 제공하는 것입니다.     
+이 구현은 원래의 C 참조 구현처럼 libsodium을 사용하는 대신 사용자 정의된 버전의 Bouncy Castle 암호화 라이브러리를 사용합니다. 원본 소스 코드는 여기에서 찾을 수 있습니다: https://github.com/bcgit/bc-csharp  
+    
 또한 게임에서 사용하도록 설계되었습니다. 이를 위해 처음부터 GC 할당에 최대한 영향을 미치지 않도록 설계되었습니다. 대부분의 경우 Netcode.IO.NET 사용으로 인한 GC 영향은 전혀 나타나지 않을 것입니다.  
-  
-  
+    
+    
 # API usage
 Most of the API resides in the namespace `NetcodeIO.NET`
 
