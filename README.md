@@ -1,4 +1,6 @@
 # Netcode.IO.NET
+>>> 문서화와 추가 작업 필요   
+  
 A pure managed C# implementation of the Netcode.IO spec
 
 아래는 원본 저장소의 글을 한글로 번역한 것이다. 또 fork를 하면서 .NET 8.0 으로 업그레이드 했다.  
